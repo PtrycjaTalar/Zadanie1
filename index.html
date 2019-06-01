@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Google</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <link rel="Stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <header class="zad1-Header">
+        <a class="zad1-Header-icon" href="https://gmail.com">Gmail</a>
+        <a class="zad1-Header-icon" href="https://www.google.pl/imghp?hl=pl&tab=wi&authuser=0">Grafika</a>
+        <a class="zad1-Header-icon" href="https://about.google/intl/pl/products"><i class="fas fa-grip-horizontal"></i>
+            <a class="zad1-Header-icon" href="#"><img src="notice.png" alt="notice"></a>
+            <a class="zad1-Header-icon" href="#"><img src="account.png" alt="account"></a>
+    </header>
+
+    <main class="zad1-Main">
+        <img class="zad1-Main-logo" src="logo.png" alt="google">
+        <div class="zad1-Search">
+            <i class="fas fa-search"></i>
+            <!--<input v-model="inputContent" class="zad1-Search-input">-->
+            <!--<v-autocomplete></v-autocomplete>-->
+            <auto-complete :data="animals"></auto-complete>
+            <i class="fas fa-keyboard"></i>
+            <i class="fas fa-microphone"></i>
+
+
+        </div>
+        <div class="zad1-MainNavigation">
+            <button class="zad1-MainNavigation-button mdc-button mdc-button--unelevated">Szukaj w Google</button>
+            <button class="zad1-MainNavigation-button mdc-button mdc-button--unelevated">Szczęśliwy traf</button>
+        </div>
+    </main>
+
+    <footer class="zad1-Footer">
+        <div class="zad1-Info">
+            <p class="zad1-Info-country">Polska</p>
+        </div>
+        <div class="zad1-Info">
+            <a class="zad1-info-anchor zad1-info-anchor--left" href="https://ads.google.com">Reklamuj się</a>
+            <a class="zad1-info-anchor zad1-info-anchor--left" href="https://www.google.com/services">Dla firm</a>
+            <a class="zad1-info-anchor zad1-info-anchor--left" href="https://about.google/intl">O nas</a>
+            <a class="zad1-info-anchor zad1-info-anchor--right"
+                href="https://policies.google.com/privacy">Prywatność</a>
+            <a class="zad1-info-anchor zad1-info-anchor--right" href="https://policies.google.com/terms">Warunki</a>
+            <a class="zad1-info-anchor zad1-info-anchor--right" href="https://www.google.com/preferences">Ustawienia</a>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js">
+        mdc.ripple.MDCRipple.attachTo(document.querySelector('.foo-button'));
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <script src="animals.js"></script>
+
+    <script>
+        Vue.component('auto-complete', {
+            template: `
+                <div class="auto-complete">
+                    <input type="text" v-model="input">
+                    <table v-if="input.length > 0">
+                        <tbody>
+                            <tr v-for="animal in data">
+                            <td>{{ animal }}</td>
+                            </tr>
+                    </tbody>
+                    </table>
+                    </div>
+            `,
+            props: {
+                data: { type: Array, required: true },
+                // input: ''
+            },
+            computed:{
+                data: function () {
+                    var self = this;
+                    var filteredAnimals = animals.filter( function(animal) {
+                        return animal.substring(0, self.input.length).toLowerCase() === self.input.toLowerCase();
+                    });
+                    return filteredAnimals.length > 9 ? filteredAnimals.slice(0, 10) : filteredAnimals;
+                }  
+            },
+            data() {
+                return {
+                    input: ''
+                }
+            }
+        })
+
+        new Vue({
+            el: ".zad1-Main",
+
+            data: {
+                animals: window.animals
+            }
+        })
+
+
+
+
+
+/*
+        var app = new Vue({
+            el: '.zad1-Search',
+            data: {
+                inputContent: ''                
+                
+            }
+            //instancja vue.js
+            // https://www.endfront.pl/2018/10/22/wprowadzenie-vue-js/
+        });
+        //pkt 5
+      
+
+        Vue.component('v-autocomplete', {
+            data: function(){
+                return{
+                    animals: window.animals
+                }
+            },
+            template: '<input v-model="inputContent" :items="animals" class="zad1-Search-input">{{ inputContent }}'
+        })
+
+        //pkt 6 https://github.com/paliari/v-autocomplete
+
+
+        */
+    </script>
+
+
+</body>
+
+</html>
